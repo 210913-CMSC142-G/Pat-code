@@ -1,0 +1,81 @@
+//Bondoc, Patricia Marie G.
+
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+class Player {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int W = in.nextInt(); // width of the building.
+        int H = in.nextInt(); // height of the building.
+        int N = in.nextInt(); // maximum number of turns before game over.
+        int X0 = in.nextInt();
+        int Y0 = in.nextInt();
+
+        int SX0 = 0; //Point 1 for x
+        int SY0 = 0; //Point 1 for y
+        int EX0 = W - 1; // Point 2 for X, must not be more than building W
+        int EY0 = H - 1; // Point 2 for y, must not be more than building H
+        int midY0 = -2; //Should be somewhere in the middle
+        int midX0 = -2; //Should be somewhere in the middle
+
+        // game loop
+        while (true) {
+            String bombDir = in.next(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
+
+            // Write an action using System.out.println()
+            if(bombDir.contains("U")){
+                if(midY0 == -2){ // checks if its somewhere in the middle then moves up (will probably be called in the first round)
+                    EY0 = Y0 - 1;
+                }else{ // if not in the middle, move to where midX0 is now and move up
+                    EY0 = midY0 - 1;
+                }
+            } 
+
+            if(bombDir.contains("D")){
+                if(midY0 == -2){
+                    SY0 = Y0 + 1;
+                }else{
+                    SY0 = midY0 + 1;
+                }
+            } 
+
+            if(bombDir.contains("L")){
+                if(midX0 == -2){
+                   EX0 = X0 - 1;
+                }else{
+                    EX0 = midX0 - 1;
+                } 
+            } 
+
+            if(bombDir.contains("R")){
+                if(midX0 == -2){
+                    SX0 = X0 + 1;
+                }else{
+                    SX0 = midX0 + 1;
+                } 
+            } 
+
+
+            midX0 = SX0 + EX0; //updates midX0 based on the new values of point 1 and point 2 
+            midX0 = midX0/2; // somewhere between point 1 and point 2
+            midY0 = SY0 + EY0;
+            midY0 = midY0/2;
+
+            // To debug: System.err.println("Debug messages...");
+            System.err.println("This is midX: " + midX0);
+            System.err.println("This is midY: " + midY0);
+
+
+            // the location of the next window Batman should jump to.
+            System.out.println(midX0 + " " + midY0);
+        }
+    }
+}

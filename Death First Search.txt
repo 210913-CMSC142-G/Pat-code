@@ -1,0 +1,96 @@
+//Bondoc, Patricia Marie G.
+
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Player {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int N = in.nextInt(); // the total number of nodes in the level, including the gateways
+        int L = in.nextInt(); // the number of links
+        int E = in.nextInt(); // the number of exit gateways
+        int[] gates = new int[E]; // array of the gates
+        ArrayList<Integer> neighbors = new ArrayList<Integer>(N); // array list of all the neighbors 
+        int[][] adj = new int[N][N]; // 2d array of all neighbors
+
+
+        for (int i = 0; i < L; i++) {
+            int N1 = in.nextInt(); // N1 and N2 defines a link between these nodes
+            int N2 = in.nextInt();
+            adj[N1][N2] = 1;
+            adj[N2][N1] = 1;
+        }
+        for (int i = 0; i < E; i++) {
+            int EI = in.nextInt(); // the index of a gateway node
+            gates[i] = EI; // inserts current EI into gates.
+        }
+
+
+        // game loop
+        while (true) {
+            int SI = in.nextInt(); // The index of the node on which the Bobnet agent is positioned this turn
+            int p = 1; //basically used as N2 (the second node to complete what link to cut)
+            int b = 0; //used as sort of true or false
+            neighbors.clear();
+
+
+            for(int i = 0; i < N; ++i){
+                if(adj[SI][i] == 1){
+                    neighbors.add(i);
+                }
+            }
+
+            for(int l = 0; l < E; l++){
+                if(neighbors.contains(gates[l])){
+                    p = gates[l];
+                    b = 1;
+                    break;
+                }
+            }
+
+            if(b != 1){
+                for(int m = 0; m < N; m++){
+                    if(adj[SI][m] == 1){
+                        p = m;
+                        break;
+                    }
+                }
+            }
+
+            
+            // To debug: System.err.println("Debug messages...");
+            System.err.println("This is the number of nodes: " + N);
+            System.err.println("This is the number of links: " + L);
+            System.err.println("This is the number of exit gateways: " + E);
+            System.err.println("This is the agent: " + SI);
+            System.err.println("This is the p: " + p);
+            System.err.println("This is the b: " + b);
+            System.err.println("This is/are the neighbors: ");
+            neighbors.forEach(k->{ 
+                 System.err.println(""+k); 
+            }); 
+            System.err.println("");
+            System.err.println("This is/are the gates: ");
+            for(int h = 0; h < E; h++){
+                System.err.println(gates[h]);
+            }
+
+            for(int q = 0; q < N; q++){
+                for(int w = 0; w < N; ++w){
+                    System.err.print(adj[q][w]);
+                }
+                System.err.println("");
+            }
+
+
+            // Example: 0 1 are the indices of the nodes you wish to sever the link between
+            System.out.println(SI + " " + p);
+        }
+    }
+}
