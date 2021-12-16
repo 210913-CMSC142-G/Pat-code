@@ -1,0 +1,54 @@
+public class UboundedKnapsack{
+     
+    //Method that just returns the maximum between two integers.
+    private static int maximum(int i, int j)
+    {
+            int answer = i;
+            if( i > j){
+                answer = i;
+            }
+            else if (i < j){
+                answer = j;
+            }
+        return answer;
+    }
+     
+ 
+    private static int UNBKS(int Capacity, int n,
+                                int[] val, int[] wt)
+    {
+        //Declaration of the array
+        int dp[] = new int[Capacity + 1];
+         
+        //This is the part that fills the db
+        for(int i = 0; i <= Capacity; i++){
+            for(int j = 0; j < n; j++){
+                if(wt[j] <= i){
+                    dp[i] = maximum(dp[i], dp[i - wt[j]] +
+                                val[j]);
+                }
+            }
+            
+            //This is just for printing, not integral
+            //part of the code.
+              for(int b = 0; b < 1; b++){
+                for(int p = 0; p < Capacity + 1; p++){
+                    System.out.print(dp[p] + "   ");
+                }
+                System.out.println();
+                System.out.println();
+            }//End of print
+        }
+        return dp[Capacity];
+    }
+ 
+    //Main where you input value for the problem
+    public static void main(String[] args)
+    {
+        int Capacity = 15;
+        int val[] = {30, 80, 55, 65};
+        int wt[] = {2, 7, 4, 3};
+        int n = val.length;
+        System.out.println("This is the maximum value of what you can eat " + UNBKS(Capacity, n, val, wt));
+    }
+}
